@@ -1,0 +1,134 @@
+.home-container {
+    overflow: hidden;
+
+    .hero-container {
+        width: 100vw;
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 110px 60px 0;
+        position: relative;
+        box-sizing: border-box;
+
+        @media screen and (max-width: $bp-s) {
+            padding: 100px 20px 0 20px;
+            min-height: none;
+            margin-bottom: 0;
+        }
+    }
+
+    .hero-copy-container {
+        position: relative;
+        z-index: 1;
+        margin: 20px 0 30vh;
+        max-width: 500px;
+
+        @media screen and (max-width: $bp-s) {
+            margin-bottom: 14vh;
+        }
+    }
+
+    .hero-title {
+        text-transform: uppercase;
+    }
+
+    .hero-copy {
+        margin-top: 0;
+
+        span {
+            display: block;
+            margin: 0;
+        }
+    }
+
+    .btn-indicator {
+        margin-top: 10px;
+    }
+
+    .logo-abstract {
+        max-width: 130px;
+        margin-bottom: 100px;
+    }
+
+    .posts-text {
+        margin-bottom: 20px;
+    }
+
+    .g-line {
+        height: 2px;
+        width: 100%;
+        background: $gradient;
+    }
+
+    .scroll-image {
+        position: absolute;
+        right: 0;
+        top: 100px;
+        width: 50%;
+    }
+
+    .actions-container {
+        position: relative;
+        font-style: italic;
+        margin: 50px auto 100px;
+        display: flex;
+        width: 100vw;
+        max-width: 1400px;
+        padding: 0 60px;
+        position: relative;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+
+        @media screen and (max-width: $bp-s) {
+            padding: 0 20px 100px;
+            margin: 20px 0 0;
+            position: sticky;
+            top: 0;
+        }
+
+        .line {
+            height: 400px;
+            width: 3px;
+            background: $gradient-vert;
+        }
+    }
+
+    .filter {
+        cursor: pointer;
+        margin-right: 20px;
+
+        &-all {
+            &:hover {
+                color: $red;
+            }
+
+            &.active {
+                color: white;
+                background-color: $red;
+            }
+        }
+
+        &-work {
+            &:hover {
+                color: $green;
+            }
+
+            &.active {
+                background-color: $green;
+            }
+        }
+
+        &-life {
+            &:hover {
+                color: $blue;
+            }
+
+            &.active {
+                background-color: $blue;
+            }
+        }
+
+        &.active {
+            color: white;
+        }
+    }
+}

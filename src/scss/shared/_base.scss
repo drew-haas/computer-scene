@@ -1,0 +1,56 @@
+html, body {
+    font-family: Helvetica, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-weight: lighter;
+    margin: 0;
+    padding: 0;
+    background-color: #000;
+    color: #fff;
+    pointer-events: auto;
+
+    &.disable-scrolling {
+        overflow: hidden;
+    }
+
+    &.opening-project {
+        pointer-events: none;
+    }
+}
+
+// ::-moz-selection {
+//     color: white;
+//     background: black;
+// }
+
+// ::selection {
+//     color: white;
+//     background: black;
+// }
+
+h1, h2, h3, h4, h5 {
+    font-family: 'Sohne Schmal Halbfett Kursiv';
+    color: #fff;
+    text-transform: uppercase;
+    position: relative;
+    margin: 0;
+    line-height: 1;
+}
+
+h1, h2 {
+    font-size: 100px;
+}
+
+p {
+    font-family: 'Roboto';
+    font-weight: 300;
+    color: #fff;
+}
+
+.page-container {
+    padding: 60px;
+}
+
+.section {
+    margin-bottom: 300px;
+}
