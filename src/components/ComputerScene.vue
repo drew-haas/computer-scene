@@ -24,28 +24,28 @@ export default {
     const camera = new THREE.PerspectiveCamera( 75, renderSize.width / renderSize.height, 0.1, 1000 );
     const renderer = new THREE.WebGLRenderer();
     const container = document.querySelector('#computer-scene');
-    let macbook, magicmouse, headphones;
+    let macbook, magicmouse, headphones, watch; // objects
     // scene.background = new THREE.Color( 0xe8e8e8);
 
     camera.position.z = 35;
     // camera.position.y = 10;
-
     renderer.setPixelRatio( Math.min(window.devicePixelRatio, 2) );
     renderer.setSize( renderSize.width, renderSize.height );
-
     container.appendChild( renderer.domElement );
 
     // Orbit Controls
     const controls = new OrbitControls( camera, renderer.domElement );
-    // controls.maxPolarAngle = 0.9 * Math.PI / 2;
     controls.enableZoom = false;
     controls.enableDamping = true;
+    // controls.maxPolarAngle = 0.9 * Math.PI / 2;
 
-    /* Cursor */
+    // Cursor
     const cursor = {
       x: 0,
       y: 0
     }
+
+    // Mouse Move Event
     window.addEventListener('mousemove', (event) => {
       cursor.x = event.clientX / renderSize.width - 0.5;
       cursor.y = -(event.clientY / renderSize.height - 0.5);
@@ -54,18 +54,15 @@ export default {
     // Object Loader
     const loader = new OBJLoader();
 
-    /*
-    *
-    * Objects
-    *
-    */
     // Group
     const group = new THREE.Group();
     scene.add(group);
 
+    // Objects
     // Macbook
     loader.load('./mpm_f21__Apple_MacBook_Pro_15.obj', function (obj) {
       macbook = obj;
+      console.log(macbook)
       let objScale = .07;
       macbook.scale.x = objScale;
       macbook.scale.y = objScale;
@@ -81,7 +78,7 @@ export default {
       magicmouse.scale.x = objScale;
       magicmouse.scale.y = objScale;
       magicmouse.scale.z = objScale;
-      // group.add( magicmouse );
+      group.add( magicmouse );
     });
 
     // Headphones
@@ -91,7 +88,18 @@ export default {
       headphones.scale.x = objScale;
       headphones.scale.y = objScale;
       headphones.scale.z = objScale;
-      // group.add( headphones );
+      group.add( headphones );
+    });
+
+    // Watch
+    loader.load('./nike-watch.obj', function (obj) {
+      watch = obj;
+      let objScale = .7;
+      watch.scale.x = objScale;
+      watch.scale.y = objScale;
+      watch.scale.z = objScale;
+      // watch.position.set(-15,0,0);
+      // group.add( watch );
     });
 
     // Sphere
@@ -201,17 +209,17 @@ export default {
       // Update Objects
       // macbook.rotation.y += 0.0004 * deltaTime;
 
-      // magicmouse.position.x = Math.sin( time * 0.4 ) * 10;
-      // magicmouse.position.y = Math.cos( time * 0.3 ) * 20;
-      // magicmouse.position.z = Math.cos( time * 0.3 ) * 10;
-      // magicmouse.rotation.x += 0.01;
-      // magicmouse.rotation.y += 0.01;
+      magicmouse.position.x = Math.sin( time * 0.4 ) * 10;
+      magicmouse.position.y = Math.cos( time * 0.3 ) * 20;
+      magicmouse.position.z = Math.cos( time * 0.3 ) * 10;
+      magicmouse.rotation.x += 0.01;
+      magicmouse.rotation.y += 0.01;
 
-      // headphones.position.x = Math.sin( time * 0.2 ) * -30;
-      // headphones.position.y = Math.cos( time * 0.4 ) * 20;
-      // headphones.position.z = Math.cos( time * 0.5 ) * 30;
-      // headphones.rotation.x += 0.01;
-      // headphones.rotation.y += 0.01;
+      headphones.position.x = Math.sin( time * 0.2 ) * -30;
+      headphones.position.y = Math.cos( time * 0.4 ) * 20;
+      headphones.position.z = Math.cos( time * 0.5 ) * 30;
+      headphones.rotation.x += 0.01;
+      headphones.rotation.y += 0.01;
 
       // Update Lights
       light1.position.x = Math.sin( time * 0.7 ) * 30;
@@ -233,6 +241,7 @@ export default {
       light4.position.y = cursor.y * 10;
 
       // Update Camera
+      camera.lookAt(watch.position);
 
       // Update Controls
       controls.update();
