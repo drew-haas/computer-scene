@@ -105,19 +105,38 @@ export default {
     //   // group.add( watch );
     // });
 
+    // Stars Background
+    const planeGeometry = new THREE.PlaneGeometry( 1, 1 );
+    const starsTexture = new THREE.TextureLoader().load( './2k_stars_milky_way.jpg' );
+    const planeMaterial = new THREE.MeshBasicMaterial( {map: starsTexture} );
+    const plane = new THREE.Mesh( planeGeometry, planeMaterial );
+    let planeScale = 300;
+    plane.scale.x = planeScale;
+    plane.scale.y = planeScale;
+    plane.scale.z = planeScale;
+    plane.position.z = -100;
+    plane.rotation.x = -.07;
+    scene.add( plane );
+
     // Spheres
-    const venusTexture = new THREE.TextureLoader().load( './2k_venus_surface.jpeg' );
-    const jupiterTexture = new THREE.TextureLoader().load( './2k_jupiter.jpeg' );
+    const jupiterTexture = new THREE.TextureLoader().load( './2k_jupiter_dark_purp.jpg' );
+    const venusTexture = new THREE.TextureLoader().load( './2k_venus_surface_pink.jpg' );
+    const marsTexture = new THREE.TextureLoader().load( './2k_mars_colorful.jpg' );
+
     // immediately use the texture for material creation
-    const venusMaterial = new THREE.MeshStandardMaterial( { map: venusTexture } );
     const jupiterMaterial = new THREE.MeshStandardMaterial( { map: jupiterTexture } );
+    const venusMaterial = new THREE.MeshStandardMaterial( { map: venusTexture } );
+    const marsMaterial = new THREE.MeshStandardMaterial( { map: marsTexture } );
+
     const geometry = new THREE.SphereGeometry( 5, 32, 32 );
     // const material = new THREE.MeshStandardMaterial(); // TODO: add planet texture to sphere
     // const depthMaterial = new THREE.MeshLambertMaterial();
 
     let sphereScale = 1.5;
+    let sphere3Scale = 7;
     const sphere = new THREE.Mesh( geometry, jupiterMaterial );
     const sphere2 = new THREE.Mesh( geometry, venusMaterial );
+    const sphere3 = new THREE.Mesh( geometry, marsMaterial );
 
     sphere.position.y = 2;
     sphere.scale.x = sphereScale;
@@ -127,24 +146,27 @@ export default {
     sphere2.position.y = 0;
     sphere2.position.z = -10;
 
-    scene.add( sphere );
-    scene.add( sphere2 );
+    sphere3.scale.x = sphere3Scale;
+    sphere3.scale.y = sphere3Scale;
+    sphere3.scale.z = sphere3Scale;
+
+    scene.add( sphere, sphere2, sphere3 );
 
     // Flying Lights
     const sphereLightHelper = new THREE.SphereBufferGeometry( 0.5, 16, 8 );
 
     let light1 = new THREE.PointLight( 0xff0040, .6, 100 ); // Red
     let light2 = new THREE.PointLight( 0x0040ff, .6, 100 ); // Blue
-    let light3 = new THREE.PointLight( 0x80ff80, .6, 100 ); // Green
-    let light4 = new THREE.PointLight( 0xffaa00, .6, 100 ); // Orange
+    let light3 = new THREE.PointLight( 0xea00ff, .6, 100 ); // Pink
+    let light4 = new THREE.PointLight( 0xffffff, .6, 100 ); // Orange
 
     scene.add( light1, light2, light3, light4 );
 
     // Flying Light Helpers
-    light1.add( new THREE.Mesh( sphereLightHelper, new THREE.MeshBasicMaterial( { color: 0xff0040 } ) ) ); // Red
-    light2.add( new THREE.Mesh( sphereLightHelper, new THREE.MeshBasicMaterial( { color: 0x0040ff } ) ) ); // Blue
-    light3.add( new THREE.Mesh( sphereLightHelper, new THREE.MeshBasicMaterial( { color: 0x80ff80 } ) ) ); // Green
-    light4.add( new THREE.Mesh( sphereLightHelper, new THREE.MeshBasicMaterial( { color: 0xffaa00 } ) ) ); // Orange
+    // light1.add( new THREE.Mesh( sphereLightHelper, new THREE.MeshBasicMaterial( { color: 0xff0040 } ) ) ); // Red
+    // light2.add( new THREE.Mesh( sphereLightHelper, new THREE.MeshBasicMaterial( { color: 0x0040ff } ) ) ); // Blue
+    // light3.add( new THREE.Mesh( sphereLightHelper, new THREE.MeshBasicMaterial( { color: 0xea00ff } ) ) ); // Pink
+    // light4.add( new THREE.Mesh( sphereLightHelper, new THREE.MeshBasicMaterial( { color: 0xffffff } ) ) ); // Orange
 
     // light1.position.z = 10;
     light1.position.y = 10;
@@ -183,16 +205,16 @@ export default {
     scene.add( lightFront );
 
     // Directional Light Helpers
-    const helper = new THREE.DirectionalLightHelper( lightBottom, 5 );
-    scene.add( helper );
-    const helper2 = new THREE.DirectionalLightHelper( lightTop, 5 );
-    scene.add( helper2 );
-    const helper3 = new THREE.DirectionalLightHelper( lightFront, 5 );
-    scene.add( helper3 );
-    const helper4 = new THREE.DirectionalLightHelper( lightLeft, 5 );
-    scene.add( helper4 );
-    const helper5 = new THREE.DirectionalLightHelper( lightRight, 5 );
-    scene.add( helper5 );
+    // const helper = new THREE.DirectionalLightHelper( lightBottom, 5 );
+    // scene.add( helper );
+    // const helper2 = new THREE.DirectionalLightHelper( lightTop, 5 );
+    // scene.add( helper2 );
+    // const helper3 = new THREE.DirectionalLightHelper( lightFront, 5 );
+    // scene.add( helper3 );
+    // const helper4 = new THREE.DirectionalLightHelper( lightLeft, 5 );
+    // scene.add( helper4 );
+    // const helper5 = new THREE.DirectionalLightHelper( lightRight, 5 );
+    // scene.add( helper5 );
 
     // Resize Event
     window.addEventListener('resize', () => {
@@ -274,6 +296,10 @@ export default {
       sphere2.position.y = Math.sin( time * .5) * 10;
       sphere2.rotation.y += 0.02;
       sphere2.rotation.x += 0.001;
+
+      sphere3.position.x = Math.sin( time * .2) * 100;
+      sphere3.position.z = Math.cos( time * .2) * 100;
+      sphere3.rotation.y += 0.001;
 
       // Update Lights
       // light1.position.x = Math.sin( time * 0.7 ) * 30;
