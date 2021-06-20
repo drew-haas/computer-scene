@@ -28,8 +28,8 @@ export default {
 
     // scene.background = new THREE.Color( 0xe8e8e8);
 
-    camera.position.z = 20;
     // camera.position.y = 10;
+    camera.position.z = 30;
     renderer.setPixelRatio( Math.min(window.devicePixelRatio, 2) );
     renderer.setSize( renderSize.width, renderSize.height );
     container.appendChild( renderer.domElement );
@@ -145,6 +145,9 @@ export default {
 
     sphere2.position.y = 0;
     sphere2.position.z = -10;
+    sphere2.scale.x = .5;
+    sphere2.scale.y = .5;
+    sphere2.scale.z = .5;
 
     sphere3.scale.x = sphere3Scale;
     sphere3.scale.y = sphere3Scale;
@@ -190,7 +193,7 @@ export default {
     const lightBottom = new THREE.DirectionalLight( 0xffffff, .2 );
     const lightLeft = new THREE.DirectionalLight( 0xffffff, .2 );
     const lightRight = new THREE.DirectionalLight( 0xffffff, .2 );
-    const lightFront = new THREE.DirectionalLight( 0xffffff, .2 );
+    const lightFront = new THREE.DirectionalLight( 0xffffff, 1 );
 
     lightTop.position.y = 20;
     lightBottom.position.y = -20;
@@ -286,15 +289,15 @@ export default {
       // headphones.rotation.y += 0.01;
 
       // Update Sphere
-      sphere.position.x = Math.sin( time * 1) * 30;
-      sphere.position.z = Math.cos( time * 1) * 30;
-      sphere.rotation.y += 0.015;
-      sphere.rotation.x += 0.0005;
+      // sphere.position.x = Math.sin( time * 1) * 30;
+      // sphere.position.z = Math.cos( time * 1) * 30;
+      sphere.rotation.y += 0.002;
+      sphere.rotation.x += 0.000015;
 
-      sphere2.position.x = Math.sin( time * .5) * -40;
-      sphere2.position.z = Math.cos( time * .5) * 40;
+      sphere2.position.x = Math.sin( time * .5) * -20;
+      sphere2.position.z = Math.cos( time * .5) * 20;
       sphere2.position.y = Math.sin( time * .5) * 10;
-      sphere2.rotation.y += 0.02;
+      sphere2.rotation.y += 0.002;
       sphere2.rotation.x += 0.001;
 
       sphere3.position.x = Math.sin( time * .2) * 100;
