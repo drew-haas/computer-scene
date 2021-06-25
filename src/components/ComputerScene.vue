@@ -142,6 +142,7 @@ export default {
     sphere.scale.x = sphereScale;
     sphere.scale.y = sphereScale;
     sphere.scale.z = sphereScale;
+    // sphere.position.z = 10;
 
     sphere2.position.y = 0;
     sphere2.position.z = -10;
@@ -253,9 +254,9 @@ export default {
     // const clock = new THREE.Clock();
 
     // GSAP Animation
-    // let tl = new TimelineMax({repeat: -1});
-    // tl.to(sphere.position, {x: 10, duration: 1, ease: Power4.easeInOut})
-    //   .to(sphere.position, {x: -10, duration: 1, ease: Power4.easeInOut});
+    let tl = new TimelineMax({repeat: -1, yoyo: true, repeatDelay: 0});
+    tl.to(sphere.position, {z: 10, duration: 2, ease: Power4.easeInOut})
+      .to(sphere.position, {z: -10, duration: 2.5, ease: Power4.easeInOut});
 
     // RAF loop
     const animate = () => {
