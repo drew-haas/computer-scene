@@ -1,5 +1,11 @@
 <template>
   <div class="three-scene">
+    <div class="scroll-trigger">
+      <div class="hero-copy">
+        <h1>Universal Creatives</h1>
+        <p>A unique group of developers and creatives from all over the world that bring ideas to life.</p>
+      </div>
+    </div>
     <div id="computer-scene"></div>
   </div>
 </template>
@@ -10,6 +16,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import {gsap, Power4, TimelineMax, easeOut} from 'gsap';
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 export default {
   name: 'ComputerScene',
@@ -28,8 +35,9 @@ export default {
 
     // scene.background = new THREE.Color( 0xe8e8e8);
 
-    // camera.position.y = 10;
-    camera.position.z = 30;
+    camera.position.y = 10;
+    camera.position.z = 0;
+    camera.position.x = -70;
     renderer.setPixelRatio( Math.min(window.devicePixelRatio, 2) );
     renderer.setSize( renderSize.width, renderSize.height );
     container.appendChild( renderer.domElement );
@@ -55,6 +63,10 @@ export default {
     // Group
     const group = new THREE.Group();
     scene.add(group);
+    // group.position.z = -10;
+    // group.position.y = -3;
+
+    camera.lookAt(group.position);
 
     // Object Loader
     // const loader = new OBJLoader();
@@ -118,47 +130,43 @@ export default {
     plane.rotation.x = -.07;
     scene.add( plane );
 
-    // Spheres
-    const jupiterTexture = new THREE.TextureLoader().load( './2k_jupiter_dark_purp.jpg' );
-    const venusTexture = new THREE.TextureLoader().load( './2k_venus_surface_pink.jpg' );
-    const marsTexture = new THREE.TextureLoader().load( './2k_mars_colorful.jpg' );
-
-    // immediately use the texture for material creation
-    const jupiterMaterial = new THREE.MeshStandardMaterial( { map: jupiterTexture } );
-    const venusMaterial = new THREE.MeshStandardMaterial( { map: venusTexture } );
-    const marsMaterial = new THREE.MeshStandardMaterial( { map: marsTexture } );
-
-    const geometry = new THREE.SphereGeometry( 5, 32, 32 );
-    // const material = new THREE.MeshStandardMaterial(); // TODO: add planet texture to sphere
-    // const depthMaterial = new THREE.MeshLambertMaterial();
-
+    // Spheres (Planets)
     let sphereScale = 1.5;
+    let sphere2Scale = .5;
     let sphere3Scale = 7;
-    const sphere = new THREE.Mesh( geometry, jupiterMaterial );
-    const sphere2 = new THREE.Mesh( geometry, venusMaterial );
-    const sphere3 = new THREE.Mesh( geometry, marsMaterial );
+    const geometry = new THREE.SphereGeometry( 5, 32, 32 );
 
+    // Jupiter / Sphere1
+    const jupiterTexture = new THREE.TextureLoader().load( './2k_jupiter_dark_purp.jpg' );
+    const jupiterMaterial = new THREE.MeshStandardMaterial( { map: jupiterTexture } );
+    const sphere = new THREE.Mesh( geometry, jupiterMaterial );
     sphere.position.y = 2;
     sphere.scale.x = sphereScale;
     sphere.scale.y = sphereScale;
     sphere.scale.z = sphereScale;
-    // sphere.position.z = 10;
 
+    // Venus / Sphere 2
+    const venusTexture = new THREE.TextureLoader().load( './2k_venus_surface_pink.jpg' );
+    const venusMaterial = new THREE.MeshStandardMaterial( { map: venusTexture } );
+    const sphere2 = new THREE.Mesh( geometry, venusMaterial );
     sphere2.position.y = 0;
     sphere2.position.z = -10;
-    sphere2.scale.x = .5;
-    sphere2.scale.y = .5;
-    sphere2.scale.z = .5;
+    sphere2.scale.x = sphere2Scale;
+    sphere2.scale.y = sphere2Scale;
+    sphere2.scale.z = sphere2Scale;
 
+    // Mars / Sphere 3
+    const marsTexture = new THREE.TextureLoader().load( './2k_mars_colorful.jpg' );
+    const marsMaterial = new THREE.MeshStandardMaterial( { map: marsTexture } );
+    const sphere3 = new THREE.Mesh( geometry, marsMaterial );
     sphere3.scale.x = sphere3Scale;
     sphere3.scale.y = sphere3Scale;
     sphere3.scale.z = sphere3Scale;
 
-    scene.add( sphere, sphere2, sphere3 );
+    // Add Spheres to Group
+    group.add( sphere, sphere2 );
 
-    // Flying Lights
-    const sphereLightHelper = new THREE.SphereBufferGeometry( 0.5, 16, 8 );
-
+    // Colorful Lights
     let light1 = new THREE.PointLight( 0xff0040, .6, 100 ); // Red
     let light2 = new THREE.PointLight( 0x0040ff, .6, 100 ); // Blue
     let light3 = new THREE.PointLight( 0xea00ff, .6, 100 ); // Pink
@@ -166,28 +174,28 @@ export default {
 
     scene.add( light1, light2, light3, light4 );
 
-    // Flying Light Helpers
+    // Colorful Light Helpers
+    // const sphereLightHelper = new THREE.SphereBufferGeometry( 0.5, 16, 8 );
     // light1.add( new THREE.Mesh( sphereLightHelper, new THREE.MeshBasicMaterial( { color: 0xff0040 } ) ) ); // Red
     // light2.add( new THREE.Mesh( sphereLightHelper, new THREE.MeshBasicMaterial( { color: 0x0040ff } ) ) ); // Blue
     // light3.add( new THREE.Mesh( sphereLightHelper, new THREE.MeshBasicMaterial( { color: 0xea00ff } ) ) ); // Pink
     // light4.add( new THREE.Mesh( sphereLightHelper, new THREE.MeshBasicMaterial( { color: 0xffffff } ) ) ); // Orange
 
     // light1.position.z = 10;
-    light1.position.y = 10;
-    light1.position.x = 5;
+    light1.position.y = 20;
+    light1.position.x = 10;
 
     // light2.position.z = 10;
-    light2.position.y = -10;
-    light2.position.x = -5;
+    light2.position.y = -20;
+    light2.position.x = -10;
 
     // light3.position.z = 10;
-    light3.position.y = -10;
-    light3.position.x = 5;
+    light3.position.y = -20;
+    light3.position.x = 10;
 
     // light4.position.z = 10;
-    light4.position.y = 10;
-    light4.position.x = -5;
-
+    light4.position.y = 20;
+    light4.position.x = -10;
 
     // Directional Lights
     const lightTop = new THREE.DirectionalLight( 0xffffff, .2 );
@@ -254,9 +262,26 @@ export default {
     // const clock = new THREE.Clock();
 
     // GSAP Animation
-    let tl = new TimelineMax({repeat: -1, yoyo: true, repeatDelay: 0});
-    tl.to(sphere.position, {z: 10, duration: 2, ease: Power4.easeInOut})
-      .to(sphere.position, {z: -10, duration: 2.5, ease: Power4.easeInOut});
+    // let tl = new TimelineMax({repeat: -1, yoyo: true, repeatDelay: 0});
+    // tl.to(sphere.position, {z: 10, duration: 2, ease: Power4.easeInOut})
+    //   .to(sphere.position, {z: -10, duration: 2.5, ease: Power4.easeInOut});
+
+    // let tlScroll = new TimelineMax();
+    gsap.registerPlugin(ScrollTrigger);
+    gsap.to(camera.position, {
+      scrollTrigger: {
+        trigger: ".hero-copy",
+        markers: true,
+        toggleActions: "play pause reverse pause",
+        scrub: true,
+        start: "top center",
+        end: "+=2000px"
+      },
+      x: 20,
+      z: 30,
+      duration: 4,
+      // ease: "Power4.easeOut"
+    });
 
     // RAF loop
     const animate = () => {
@@ -301,9 +326,9 @@ export default {
       sphere2.rotation.y += 0.002;
       sphere2.rotation.x += 0.001;
 
-      sphere3.position.x = Math.sin( time * .2) * 100;
-      sphere3.position.z = Math.cos( time * .2) * 100;
-      sphere3.rotation.y += 0.001;
+      // sphere3.position.x = Math.sin( time * .2) * 100;
+      // sphere3.position.z = Math.cos( time * .2) * 100;
+      // sphere3.rotation.y += 0.001;
 
       // Update Lights
       // light1.position.x = Math.sin( time * 0.7 ) * 30;
@@ -326,7 +351,7 @@ export default {
 
       // Update Camera
       // camera.lookAt(watch.position);
-      // camera.lookAt(sphere.position);
+      camera.lookAt(group.position);
 
       // Update Controls
       controls.update();
@@ -343,10 +368,25 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.three-scene {
+#computer-scene {
   position: fixed;
-  // z-index: -1;
   top: 0;
   left: 0;
+}
+
+.scroll-trigger {
+  --scroll-height: 2000px;
+  height: var(--scroll-height);
+  width: 100vw;
+  z-index: 2;
+  position: relative;
+  padding: 40vh 50px;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+.hero-copy {
+  pointer-events: auto;
+  display: inline-block;
 }
 </style>
